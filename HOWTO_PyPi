@@ -1,0 +1,11 @@
+I don't build the PyPi releases that often and seem to always forget how...
+
+Build Instructions
+------------------
+
+python3 setup.py sdist
+
+Upload to PyPi Server
+---------------------
+
+twine upload dist/SonyCP-xxx*

@@ -1,0 +1,51 @@
+# ------------------------------------------------------------------------------------
+# test_pysdcp.py
+#
+# A simple test program to verify if the pysdcp protocol is working properly.
+
+import sys
+import time
+import pysdcp
+
+def main():
+
+    # Uncomment these next four lines if you want to search for a projector
+    
+    #b = pysdcp.Projector()
+    #if not b.find_projector(timeout=1):
+    #    print("Could not find the projector. Aborting!")
+    #    sys.exit(1)
+
+    # Don't search for a projector, use its IP address instead. If you want to search using
+    # the above code, then COMMENT out the following line
+    
+    b = pysdcp.Projector("192.168.102.74")
+    print("Projector object created")
+
+    cur_pos = b.get_picture_position()
+    print("Screen position is: " + cur_pos)
+
+    if not b.get_power():
+        print("Projector is powered off")
+        print(b.set_power(True))
+        time.sleep(7)
+    else:
+        print("Projector is powered on")
+
+    if cur_pos == "1.85.1":
+        b.set_picture_position("2.35.1")
+        time.sleep(15)
+        print("Changed position to: " + b.get_picture_position())
+    else:
+        b.set_picture_position("1.85.1")
+        time.sleep(15)
+        print("Changed position to: " + b.get_picture_position())
+
+    b.set_picture_position(cur_pos)
+    time.sleep(15)
+    print("Changed position back to original: " + b.get_picture_position())
+
+    print("Turning off projector, status = " + str(b.set_power(False)))
+
+if __name__ == '__main__':
+    main()
